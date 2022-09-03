@@ -1,0 +1,125 @@
+--made by EE7
+repeat wait() until game:IsLoaded()
+
+--old-antitp bypass
+
+if workspace:FindFirstChild("CCoff") then
+    game:GetService("Workspace").CCoff:Destroy()
+end
+--{ antiafk }--
+
+local VirtualUser=game:service'VirtualUser'
+    game:service'Players'.LocalPlayer.Idled:connect(function()
+    warn("anti-afk")
+    VirtualUser:CaptureController()
+    VirtualUser:ClickButton2(Vector2.new())
+end)
+
+
+ 
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+
+
+    local Window = Library.CreateLib("Fallout")
+
+
+
+
+    
+-- The Main
+
+    local Main = Window:NewTab("Main")
+    local MainSection = Main:NewSection("Main")
+
+    MainSection:NewSlider("walk speed", "Changes how fast you walk.", 250, 16, function(s) 
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+    end)
+
+    MainSection:NewSlider("Jump Power", "Changes how high you can jump", 250, 16, function(s)
+        game.Players.LocalPlayerplr.Character.Humanoid.JumpPower = s
+    end)
+
+    
+
+MainSection:NewButton("airwalk", "You will start walking in the ait", function()
+local testsquadAIR    = {
+   Airwalk    = Enum.KeyCode.RightAlt;
+}
+
+local ContextAction = Game:GetService("ContextActionService")
+local RunService    = Game:GetService("RunService")
+
+local function ForEach(t, f)
+   for Index, Value in pairs(t) do
+       f(Value, Index)
+   end
+end _G.ForEach=ForEach;
+local function Create(ClassName)
+   local Object = Instance.new(ClassName)
+   return function(Properties)
+       ForEach(Properties, function(Value, Property)
+           Object[Property] = Value
+       end)
+       return Object
+   end
+end _G.Create=Create;
+
+do
+   local airwalkState     = false
+   local currentPart    = nil
+   RunService.RenderStepped:connect(function()
+       if airwalkState then
+           if not currentPart then
+               warn "On"
+               currentPart = Create "Part" {
+                   Parent = workspace.CurrentCamera;
+                   Name = "AWP";
+                   Transparency = 1;
+                   Size = Vector3.new(2, 1, 2);
+                   Anchored = true;
+               }
+           end
+           local character = game.Players.LocalPlayer.Character
+           if character then
+               currentPart.CFrame = character.HumanoidRootPart.CFrame - Vector3.new(0, 3.6, 0)
+           end
+       else
+           if currentPart then
+               warn "Off"
+               currentPart:Destroy()
+               currentPart = nil
+           end        
+       end
+   end)
+   ContextAction:BindAction("Airwalk", function(_, InputState)
+       if InputState == Enum.UserInputState.Begin then
+           warn "airwalk"
+           airwalkState = not airwalkState
+       end
+   end, false, testsquadAIR.Airwalk)
+end
+end)
+
+-- Trolling
+
+    local Troll = Window:NewTab("[]testing[] Trolling ° ͜ʖ° ")
+    local TrollSection = Troll:NewSection("trolling")
+
+    TrollSection:NewButton("fling", "flinging", function()
+    loadstring(game:HttpGet('https://pastebin.com/raw/fj5VwQtC'))()
+end)
+
+-- Settings
+
+    local Settings = Window:NewTab("Settings")
+    local SettingsSection = Settings:NewSection("Settings")
+
+
+
+
+
+SettingsSection:NewKeybind("Toggle Gui", "Hide's the gui", Enum.KeyCode.L, function()
+	Library:ToggleUI()
+end)
+
+
